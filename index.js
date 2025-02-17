@@ -269,7 +269,7 @@ app.post('/check', ((reqClient, resClient) => {
           return res.json()
         })
         .then(res => resClient.send(res)) // отправляется ответ на клиент
-        .catch(err => console.log({ err }))
+        .catch(err => resClient.send({ err }))
       }))
 
 
