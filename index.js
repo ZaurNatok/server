@@ -255,6 +255,66 @@ app.post('/check', ((reqClient, resClient) => {
 
     // СБП
 
+ app.post('/generateToken', (async (reqClient, resClient) => {
+
+        let token = [{"Amount": `${reqClient.body.Amount}`},{"Description": `${reqClient.body.Description}`},{"OrderId": `${reqClient.body.OrderId}`},{"Password": `${bankPassword}`},{"TerminalKey": `${bankTerminalKey}`}];
+
+        let values = [];
+
+        for(let i = 0; i < token.length; i++) {
+            values.push(String(Object.values(token[i])))
+        }
+
+        const result = values.join('');
+
+        const utf8 = new TextEncoder().encode(result);
+        try {
+          const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+          const hashArray = Array.from(new Uint8Array(hashBuffer));
+          const hashHex = hashArray
+            .map((bytes) => bytes.toString(16).padStart(2, '0'))
+            .join('');
+          const res = hashHex;
+
+          res => res.json();
+          return resClient.send(res)
+          
+        } catch (err) {
+          console.error('Error fetching books:', err);
+          res.status(500).json({ message: 'Internal Server Error' });
+        }
+        
+
+
+      
+
+ 
+      // fetch('https://rest-api-test.tinkoff.ru/v2/Init', {
+      //   method: 'POST',
+      //   headers: {
+      //       'content-type': 'application/json'
+      //   },
+      //   body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
+      // })
+
+
+
+      // .then(res => {
+      //   return res.json()
+      // })
+      // .then(res => resClient.send(res)) // отправляется ответ на клиент
+      // .catch(err => resClient.send({ err }))
+    }))
+
+
+
+
+
+
+
+
+
+
     app.post('/sbpInit', ((reqClient, resClient) => {
       console.log('ayyyyy', reqClient.body)
  
