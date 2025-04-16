@@ -7,13 +7,23 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+import dotenv from 'dotenv';
+dotenv.config();
+
+const dbHost = process.env.DB_HOST;
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASSWORD;
+const authorizationProfitable = process.env.PROFITABLE_AUTH;
+const bankPassword = process.env.BANK_PASSWORD;
+const bankTerminalKey = process.env.BANK_TERMINAL_KEY;
+
 // База данных
 
 mongoose.connect(
-  'mongodb://root@217.114.14.54',
+  `${dbHost}`,
   {
-    user: 'zmnatok',
-    pass: '***Yfnjrpfeh5'
+    user: `${dbUser}`,
+    pass: `${dbPassword}`
   }
 ).then(() => console.log('Connected!'));
 
@@ -161,12 +171,12 @@ app.get('/payments', async (req, res) => {
 
 
 app.post('/check', ((reqClient, resClient) => {
-
+console.log('вот он', reqClient.body)
     fetch('http://185.102.73.67:8081/TestPTService/api/v20/check', {
       method: 'POST',
       headers: {
           'content-type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjUxIiwiVHlwZSI6IkFnZW50IiwiQWdlbnRJZCI6IjU2IiwibmJmIjoxNzM1MDYyMTYxLCJleHAiOjIwNDkwMzI3NzIsImlhdCI6MTczNTA2MjE2MSwiaXNzIjoiUGF5TmV0IiwiYXVkIjoiQ3liZXJpYVNvZnQifQ.SwDP4I3rXJ4UwA52aPWXDclJnoxlFp2cNC0MknDx58s',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjUxIiwiVHlwZSI6IkFnZW50IiwiQWdlbnRJZCI6IjU2IiwibmJmIjoxNzM1MDYyMTYxLCJleHAiOjIwNDkwMzI3NzIsImlhdCI6MTczNTA2MjE2MSwiaXNzIjoiUGF5TmV0IiwiYXVkIjoiQ3liZXJpYVNvZnQifQ.SwDP4I3rXJ4UwA52aPWXDclJnoxlFp2cNC0MknDx58s'
       },
       body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
     })
@@ -184,7 +194,7 @@ app.post('/check', ((reqClient, resClient) => {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjUxIiwiVHlwZSI6IkFnZW50IiwiQWdlbnRJZCI6IjU2IiwibmJmIjoxNzM1MDYyMTYxLCJleHAiOjIwNDkwMzI3NzIsImlhdCI6MTczNTA2MjE2MSwiaXNzIjoiUGF5TmV0IiwiYXVkIjoiQ3liZXJpYVNvZnQifQ.SwDP4I3rXJ4UwA52aPWXDclJnoxlFp2cNC0MknDx58s',
+            'Authorization': `${authorizationProfitable}`,
         },
         body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
       })
@@ -202,7 +212,7 @@ app.post('/check', ((reqClient, resClient) => {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjUxIiwiVHlwZSI6IkFnZW50IiwiQWdlbnRJZCI6IjU2IiwibmJmIjoxNzM1MDYyMTYxLCJleHAiOjIwNDkwMzI3NzIsImlhdCI6MTczNTA2MjE2MSwiaXNzIjoiUGF5TmV0IiwiYXVkIjoiQ3liZXJpYVNvZnQifQ.SwDP4I3rXJ4UwA52aPWXDclJnoxlFp2cNC0MknDx58s',
+            'Authorization': `${authorizationProfitable}`,
         },
         body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
       })
@@ -220,7 +230,7 @@ app.post('/check', ((reqClient, resClient) => {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjUxIiwiVHlwZSI6IkFnZW50IiwiQWdlbnRJZCI6IjU2IiwibmJmIjoxNzM1MDYyMTYxLCJleHAiOjIwNDkwMzI3NzIsImlhdCI6MTczNTA2MjE2MSwiaXNzIjoiUGF5TmV0IiwiYXVkIjoiQ3liZXJpYVNvZnQifQ.SwDP4I3rXJ4UwA52aPWXDclJnoxlFp2cNC0MknDx58s',
+            'Authorization': `${authorizationProfitable}`,
         },
         body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
       })
@@ -238,7 +248,7 @@ app.post('/check', ((reqClient, resClient) => {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjUxIiwiVHlwZSI6IkFnZW50IiwiQWdlbnRJZCI6IjU2IiwibmJmIjoxNzM1MDYyMTYxLCJleHAiOjIwNDkwMzI3NzIsImlhdCI6MTczNTA2MjE2MSwiaXNzIjoiUGF5TmV0IiwiYXVkIjoiQ3liZXJpYVNvZnQifQ.SwDP4I3rXJ4UwA52aPWXDclJnoxlFp2cNC0MknDx58s',
+            'Authorization': `${authorizationProfitable}`,
         },
         body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
       })
@@ -255,88 +265,250 @@ app.post('/check', ((reqClient, resClient) => {
 
     // СБП
 
-     app.post('/sbpInit', ((reqClient, resClient) => {
-      console.log('ayyyyy', reqClient.body)
- 
+    app.post('/sbpInit', (async (reqClient, resClient) => {
+
+      let token = [{"Amount": `${reqClient.body.Amount}`},{"Description": `${reqClient.body.Description}`},{"OrderId": `${reqClient.body.OrderId}`},{"Password": `${bankPassword}`},{"TerminalKey": `${bankTerminalKey}`}];
+
+      let values = [];
+
+      for(let i = 0; i < token.length; i++) {
+          values.push(String(Object.values(token[i])))
+      }
+
+      const result = values.join('');
+
+      const utf8 = new TextEncoder().encode(result);
+      try {
+        const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray
+          .map((bytes) => bytes.toString(16).padStart(2, '0'))
+          .join('');
+        const res = hashHex;
+
+        res => res.json();
+
         fetch('https://rest-api-test.tinkoff.ru/v2/Init', {
           method: 'POST',
           headers: {
               'content-type': 'application/json'
           },
-          body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
+          body: JSON.stringify(
+            {
+              "TerminalKey": `${bankTerminalKey}`,
+              "Amount": reqClient.body.Amount,
+              "OrderId": reqClient.body.OrderId.toString(),
+              "Description": reqClient.body.Description,
+              "Token": res
+            }
+          ) // прокисуются данные с клиента
         })
         .then(res => {
           return res.json()
         })
         .then(res => resClient.send(res)) // отправляется ответ на клиент
         .catch(err => resClient.send({ err }))
-      }))
+
+      } 
+      catch (err) {
+        console.error('Error fetching books:', err);
+        res.status(500).json({ message: 'Internal Server Error' });
+      }
+    
+  }))
+
+    
+
+  app.post('/generateQR', (async (reqClient, resClient) => {
+
+    let token = [{"DataType": `${reqClient.body.DataType}`},{"Password": `${bankPassword}`},{"PaymentId": `${reqClient.body.PaymentId}`},{"TerminalKey": `${bankTerminalKey}`}];
+
+    let values = [];
+
+    for(let i = 0; i < token.length; i++) {
+        values.push(String(Object.values(token[i])))
+    }
+
+    const result = values.join('');
+
+    const utf8 = new TextEncoder().encode(result);
+    try {
+      const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray
+        .map((bytes) => bytes.toString(16).padStart(2, '0'))
+        .join('');
+      const res = hashHex;
+
+      res => res.text();
+      resClient.send(res);
+
+    } 
+    catch (err) {
+      console.error('Error fetching books:', err);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  
+}))
+
+    // function generateToken(amount, description, orderId) {
+  
+
+    //     const utf8 = new TextEncoder().encode(result);
+    //     try {
+    //       const hashBuffer = crypto.subtle.digest('SHA-256', utf8);
+    //       const hashArray = Array.from(new Uint8Array(hashBuffer));
+    //       const hashHex = hashArray
+    //         .map((bytes) => bytes.toString(16).padStart(2, '0'))
+    //         .join('');
+    //       const res = hashHex;
+    //       console.log('token', res)
+
+    //       res => res.json();
+    //       return res;
+          
+    //     } catch (err) {
+    //       console.error('Error fetching books:', err);
+    //       res.status(500).json({ message: 'Internal Server Error' });
+    //     }
+    // }
 
 
+  //   function generateToken(string) {
+  //     const utf8 = new TextEncoder().encode(string);
+  //     return crypto.subtle.digest('SHA-256', utf8).then((hashBuffer) => {
+  //     const hashArray = Array.from(new Uint8Array(hashBuffer));
+  //     const hashHex = hashArray
+  //     .map((bytes) => bytes.toString(16).padStart(2, '0'))
+  //     .join('');
+  //     return hashHex;
+  //     });
+  // }
 
-      app.post('/getQr', ((reqClient, resClient) => {
+  // app.post('/sbpInit', ((reqClient, resClient) => {
+
  
-        fetch('https://rest-api-test.tinkoff.ru/v2/GetQr', {
-          method: 'POST',
-          headers: {
-              'content-type': 'application/json'
-          },
-          body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
-        })
-        .then(res => {
-          return res.json()
-        })
-        .then(res => resClient.send(res)) // отправляется ответ на клиент
-        .catch(err => console.log({ err }))
-      }))
-
-      app.post('/getState', ((reqClient, resClient) => {
+  //   fetch('https://rest-api-test.tinkoff.ru/v2/Init', {
+  //     method: 'POST',
+  //     headers: {
+  //         'content-type': 'application/json'
+  //     },
+  //     body: JSON.stringify(
+  //       {
+  //         "TerminalKey": `${bankTerminalKey}`,
+  //         "Amount": reqClient.body.Amount,
+  //         "OrderId": reqClient.body.OrderId.toString(),
+  //         "Description": reqClient.body.Description,
+  //         "Token": reqClient.body.Token
+  //       }
+  //     ) // прокисуются данные с клиента
+  //   })
+  //   .then(res => {
+  //     return res.json()
+  //   })
+  //   .then(res => resClient.send(res)) // отправляется ответ на клиент
+  //   .catch(err => resClient.send({ err }))
+  // }))
+  
+    
+    // app.post('/sbpInit', ((reqClient, resClient) => {
  
-        fetch('https://rest-api-test.tinkoff.ru/v2/GetState', {
-          method: 'POST',
-          headers: {
-              'content-type': 'application/json'
-          },
-          body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
-        })
-        .then(res => {
-          return res.json()
-        })
-        .then(res => resClient.send(res)) // отправляется ответ на клиент
-        .catch(err => console.log({ err }))
-      }))
+    //     fetch('https://rest-api-test.tinkoff.ru/v2/Init', {
+    //       method: 'POST',
+    //       headers: {
+    //           'content-type': 'application/json'
+    //       },
+    //       body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
+    //     })
+    //     .then(res => {
+    //       return res.json()
+    //     })
+    //     .then(res => resClient.send(res)) // отправляется ответ на клиент
+    //     .catch(err => resClient.send({ err }))
+    //   }))
 
-      app.post('/SbpPayTest', ((reqClient, resClient) => {
- 
-        fetch('https://rest-api-test.tinkoff.ru/v2/SbpPayTest', {
-          method: 'POST',
-          headers: {
-              'content-type': 'application/json'
-          },
-          body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
-        })
-        .then(res => {
-          return res.json()
-        })
-        .then(res => resClient.send(res)) // отправляется ответ на клиент
-        .catch(err => console.log({ err }))
-      }))
 
-      app.post('/payresultSBP', async (req, res) => {
 
-        try {
-          const filter = { agentTransactionId: req.body.agentTransactionId };
-          const update = { statusBank: req.body.statusBank, statusPartner: req.body.statusPartner };
-          const opts = { new: true };
-      
-          let updatedStatus = await Payment.findOneAndUpdate(filter, update, opts);
-      
-          return res.json(updatedStatus);
-        } catch (err) {
-          console.error('Error fetching books:', err);
-          res.status(500).json({ message: 'Internal Server Error' });
-        }
-      });
+
+
+
+
+
+
+
+
+
+
+    app.post('/getQr', ((reqClient, resClient) => {
+
+      fetch('https://rest-api-test.tinkoff.ru/v2/GetQr', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(
+          {
+            "TerminalKey": `${bankTerminalKey}`,
+            "PaymentId": reqClient.body.PaymentId,
+            "DataType": reqClient.body.DataType,
+            "Token": reqClient.body.Token
+          }
+        ) // прокисуются данные с клиента
+      })
+      .then(res => {
+        return res.json()
+      })
+      .then(res => resClient.send(res)) // отправляется ответ на клиент
+      .catch(err => console.log({ err }))
+    }))
+
+    app.post('/getState', ((reqClient, resClient) => {
+
+      fetch('https://rest-api-test.tinkoff.ru/v2/GetState', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
+      })
+      .then(res => {
+        return res.json()
+      })
+      .then(res => resClient.send(res)) // отправляется ответ на клиент
+      .catch(err => console.log({ err }))
+    }))
+
+    app.post('/SbpPayTest', ((reqClient, resClient) => {
+
+      fetch('https://rest-api-test.tinkoff.ru/v2/SbpPayTest', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(reqClient.body) // прокисуются данные с клиента
+      })
+      .then(res => {
+        return res.json()
+      })
+      .then(res => resClient.send(res)) // отправляется ответ на клиент
+      .catch(err => console.log({ err }))
+    }))
+
+    app.post('/payresultSBP', async (req, res) => {
+
+      try {
+        const filter = { agentTransactionId: req.body.agentTransactionId };
+        const update = { statusBank: req.body.statusBank, statusPartner: req.body.statusPartner };
+        const opts = { new: true };
+    
+        let updatedStatus = await Payment.findOneAndUpdate(filter, update, opts);
+    
+        return res.json(updatedStatus);
+      } catch (err) {
+        console.error('Error fetching books:', err);
+        res.status(500).json({ message: 'Internal Server Error' });
+      }
+    });
 
 
 
